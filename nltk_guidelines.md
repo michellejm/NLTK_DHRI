@@ -37,14 +37,80 @@ It will open in the browser. All of the directories (folders) in your home direc
 In the box that appears, type:
 
 `import nltk`
+
 `import matplotlib`
 
-Press **Shift** + **Enter** to run the cell (or click run at the top of the page).
+Press **Shift** + **Enter** to run the cell (or click run at the top of the page). Don't worry too much about what this is doing - that will be explained later in this tutorial. For now, we just want to make sure the packages we will need are installed.
 
 ![jupyter](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/jupyter2.png)
 
 If nothing happens, they are installed and you are ready to move on! If you get an error message, either you have a typo or they are not installed. If it is the later, open the command line and type:
 
 `pip install nltk`
+
 `pip install matplotlib`
 
+![jupyter](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/jupyter3.png)
+
+Now we need to install the nltk corpus. This is very large and may take some time. 
+
+In the next cell, type:
+
+`nltk.download()` and run the cell.
+
+The NLTK downloader should appear. Please install all of the packages. If you are short on time, focus on 'book' for this tutorial, and come back to this step. 
+
+Yours will look a little different, but the same interface. Click on the 'all' option and then 'Download'. Once they all trun green, you can close the Downloader dialogue box.
+
+![nltk downloader](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/nltk.png)
+
+Return to your Jupyter Notebook and type:
+
+`from nltk.book import *`
+
+A list of books should appear. If this happens great! If not, return to the downloader to make sure everything is ok.
+
+Close this Notebook without saving - the only purpose was to check if we have the appropriate packages installed.
+
+
+### Text As Data
+
+
+### NLTK Methods with the NLTK Corpus
+
+Return to the Jupyter Home Tab in your Browser (or Launch the Jupyter Notebook again), and start a New Python3 Notebook using the 'New' button in the upper right corner. 
+
+Start by importing the NLTK library by typing 
+
+`import nltk`
+
+Libraries are sets of instructions that Python can use to perform specialist functions. The Python programming language is very simple by design, and can be used for a wide variety of functions. It allows users to customize it to their needs by importing packages. Packages are written by individuals and groups who see the need for a simple set of commands to do routine functions. The Natural Langauge ToolKit (NLTK) is one such library. As the name suggests, its focus is on language processing. 
+
+
+We will also need the matplotlib library to help us visualize a graph
+
+`import matplotlib`
+
+Finally, because of a quirk of Jupyter notebooks, we need to specify that matplotlib should display its graphs in the notebook (as opposed to in a separate window), so we type this command (this is technically a Jupyter command, not Python):
+
+`%matplotlib inline`
+
+All three of these commands can be written in the same cell and run all at once (**Shift** + **Enter**) or in different cells. 
+
+![imports](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/imports.png)
+
+If nothing happens, it's all correct. 
+
+Next we need to load all of the nltk corpora into our program. Even though we downloaded them to our computer, we need to tell Python we want to use them every time we want to use them. 
+
+`from nltk.book import *`
+
+All of the texts should load again. These are pre-formatted datasets that come with NLTK. We will still have to do some minor processing, but having the data in this format will save us a few steps. However, at the end of this tutorial, we will load in our own data, but these will get us started. 
+
+
+* Built-in Python Methods
+* Making your own corpus
+	* Data Cleaning
+		* Types vs. Tokens
+	* Input/Output
+* Part-of-Speech Tagging
