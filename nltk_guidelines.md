@@ -34,7 +34,12 @@ It will open in the browser. All of the directories (folders) in your home direc
 
 ![jupyter](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/jupyter1.png)
 
-In the box that appears, type:
+A blank page with an empty box should appear.
+
+![jupyter](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/jupyter2.png)
+
+
+In the box, type:
 
 `import nltk`
 
@@ -42,7 +47,7 @@ In the box that appears, type:
 
 Press **Shift** + **Enter** to run the cell (or click run at the top of the page). Don't worry too much about what this is doing - that will be explained later in this tutorial. For now, we just want to make sure the packages we will need are installed.
 
-![jupyter](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/jupyter2.png)
+![jupyter](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/jupyter3.png)
 
 If nothing happens, they are installed and you are ready to move on! If you get an error message, either you have a typo or they are not installed. If it is the later, open the command line and type:
 
@@ -50,9 +55,8 @@ If nothing happens, they are installed and you are ready to move on! If you get 
 
 `pip install matplotlib`
 
-![jupyter](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/jupyter3.png)
 
-Now we need to install the nltk corpus. This is very large and may take some time. 
+Now we need to install the nltk corpus. This is very large and may take some time if you are on a weak connection. 
 
 In the next cell, type:
 
@@ -75,6 +79,19 @@ Close this Notebook without saving - the only purpose was to check if we have th
 
 ### Text As Data
 
+When we think of 'data', we often think of numbers, things that can be summarized, statisticized, and graphed. Rarely when I ask people "what is data?" do they respond "Moby Dick!" And yet, more and more, text is data. Whether it is Moby Dick, or every romance novel written since 1750, or today's newspaper or twitter feed, we are able to transform written (and spoken) language into data that can be quantified and visualized. 
+
+The first step in gathering insights from texts is to create a corpus. A corpus is a collection of texts that are somehow related to each other. For example, [Donald Trump's Tweets LINK], [text messages](www.byts.commons.gc.cuny.edu) sent by bilingual young adults, newspapers from the 1850's, or [books](www.gutenberg.com) in the public domain are all corpora. There are infinitely many corpora, but often, you will want to make your own that best fits your research question. 
+
+The route you take from here will depend on your research question. Let's say, for example, that you want to examine gender differences in writing style. Based on previous linguistic research, you suspect that male authors use more definitives than female ones. So you collect two corpora: one written by males, one written by females, and you count the number of *the*s, *this*s, and *that*s compared to the number of *a*s, *an*s, and *one*s. Maybe you find a difference, maybe you don't. We can already see that this is a relatively crude way of going about answering this question, but it is a start (more likely you'd use a *supervised classification task*, which you will learn about in the Machine Learning Tutorial). 
+
+Maybe you want to know if newspapers contain more grammatical structure than tweets. One way to do this would be to use Part-of-Speech tagging. If newspaper articles have a higher ratio of function words (prepositions, auxiliaries, determiners, etc.) to semantic words, than tweets, then your hypothesis is confirmed. Since newspaper articles are much longer than tweets, they will clearly have higher raw numbers, but the ratios can be compared. 
+
+Once we have a corpus (whether that is one text or millions), usually, we want to clean and normalize it. Language is messy, and created for and by people, not computers. There is a lot of grammatical information in a sentence that a computer cannot use. For example, I could say to you `The house is burning.` and you would understand me. You would also understand if I say `house burn`. The first has more information about tense, and which house in particular, but the sentiment is the same either way. 
+
+Usually, the computer works better with the second version (depending, of course, on your research question). In going from the first to the second, we removed the stop words (*the* and *is*), and normalized (removed punctuation and case) and lemmatized what was left (*burning* becomes *burn* - though we might have stemmed this, its impossible to tell from the example). 
+
+Now that we have a transformed corpus, we can ask the computer to count things and return 
 
 ### NLTK Methods with the NLTK Corpus
 
