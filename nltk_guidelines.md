@@ -201,10 +201,14 @@ Let's fix this by making all of the words lowercase. We will make a new list of 
 
 `for t in text1:`
 
-`	if t.isalpha:
-`		t.lower()
-`		text1_tokens.append(t)
+`	if t.isalpha:`
+
+`		t.lower()`
+
+`		text1_tokens.append(t)`
+
 `	else:`
+
 `		pass`
 
 ![code](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/code.png)
