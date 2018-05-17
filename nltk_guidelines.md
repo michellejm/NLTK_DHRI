@@ -197,11 +197,13 @@ This gets at a **type/token** distinction. "Whale" and "whale" are different typ
 
 Let's fix this by making all of the words lowercase. We will make a new list of words, and call it text1_tokens. We will fill this list with all the words in text1, but in their lowercase form. In this same step, we are going to do a tricky move, and only keep the words that are alphabetical (so no punctuation or numbers), and pass over anything, effectively just not adding it to the list. Type the following code (the tabs are necessary):
 
-`text1_tokens = []``
-`for t in text1:
-`	if t.isalpha:`
-`		t.lower()`
-`		text1_tokens.append(t)`
+`text1_tokens = []`
+
+`for t in text1:`
+
+`	if t.isalpha:
+`		t.lower()
+`		text1_tokens.append(t)
 `	else:`
 `		pass`
 
@@ -270,9 +272,13 @@ We need to specify the English list, and save it into its own variable that we c
 Now we want to go through all of the words in our text, and if that word is in the stop words list, remove it from our list. Otherwise, skip it. The code below is VERY slow (there's a faster option beneath it). The way we write this in Python is:
 
 `for t in text1_tokens:`
+
 `    if t in stops:`
+
 `        text1_tokens.remove(t)`
+
 `    else:`
+
 `        pass`
         
 Faster option: `text1_tokens = [t for t in text1_tokens if t not in stops]`
@@ -316,8 +322,11 @@ Now let's have a look at the words Melville uses in Moby Dick. We'd like to look
 A list of all the words in Moby Dick should appear. The list begins with 'a', which we might have expected to be removed in the stemming process, and some words we wouldn't have expected, such as "abbreviate" and "abbreviation". We can try this with a stemmer instead (I recommend Porter, but there are many), but we end up with a lot of unrecoverable words. We will stick with the output of the Lemmatizer for now. The code for Porter is below:
 
 `from nltk.stem import PorterStemmer`
+
 `porter_stemmer = PorterStemmer()`
+
 `t1_porter = [porter_stemmer.stem(t) for t in t1_tokens]`
+
 `sorted(set(t1_porter))`
 
  
