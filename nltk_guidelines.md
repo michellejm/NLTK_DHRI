@@ -197,19 +197,13 @@ This gets at a **type/token** distinction. "Whale" and "whale" are different typ
 
 Let's fix this by making all of the words lowercase. We will make a new list of words, and call it text1_tokens. We will fill this list with all the words in text1, but in their lowercase form. In this same step, we are going to do a tricky move, and only keep the words that are alphabetical (so no punctuation or numbers), and pass over anything, effectively just not adding it to the list. Type the following code (the tabs are necessary):
 
-`text1_tokens = []`
-
-`for t in text1:`
-
-`	if t.isalpha:`
-
-`		t.lower()`
-
-`		text1_tokens.append(t)`
-
-`	else:`
-
-`		pass`
+```text1_tokens = []
+for t in text1:
+	if t.isalpha:
+		t.lower()
+		text1_tokens.append(t)
+	else:
+		pass```
 
 ![code](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/code.png)
 	
@@ -275,15 +269,12 @@ We need to specify the English list, and save it into its own variable that we c
 
 Now we want to go through all of the words in our text, and if that word is in the stop words list, remove it from our list. Otherwise, skip it. The code below is VERY slow (there's a faster option beneath it). The way we write this in Python is:
 
-`for t in text1_tokens:`
-
-`    if t in stops:`
-
-`        text1_tokens.remove(t)`
-
-`    else:`
-
-`        pass`
+```for t in text1_tokens:
+    if t in stops:
+        text1_tokens.remove(t)
+    else:
+        pass
+```
         
 Faster option: `text1_tokens = [t for t in text1_tokens if t not in stops]`
 
@@ -325,19 +316,184 @@ Now let's have a look at the words Melville uses in Moby Dick. We'd like to look
 
 A list of all the words in Moby Dick should appear. The list begins with 'a', which we might have expected to be removed in the stemming process, and some words we wouldn't have expected, such as "abbreviate" and "abbreviation". We can try this with a stemmer instead (I recommend Porter, but there are many), but we end up with a lot of unrecoverable words. We will stick with the output of the Lemmatizer for now. The code for Porter is below:
 
-`from nltk.stem import PorterStemmer`
+```
+from nltk.stem import PorterStemmer
+porter_stemmer = PorterStemmer()
+t1_porter = [porter_stemmer.stem(t) for t in t1_tokens]
+sorted(set(t1_porter))
+```
 
-`porter_stemmer = PorterStemmer()`
+ Now let's visualize the word frequency. First we will create a frequency distribution. This is a special type of NLTK object that is kind of like a dictionary, where the words are the keys, and the counts are the values. (The NLTK-ness of our text1 is still retained with text1_clean)
+ 
+ `my_dist=FreqDist(text1_clean)`
 
-`t1_porter = [porter_stemmer.stem(t) for t in t1_tokens]`
+If nothing happened, that is normal, check to make sure it is there by calling for the type of the "my_dist" object.
 
-`sorted(set(t1_porter))`
+
+`type(my_dist)`
+
+It should say it is an nltk probability distribution. It doesn't matter too much right now what it is, only that it worked. We can now plot this with the matplotlib function, "plot". We want to plot the first 50 entries of the my_dist object, but we don't want it to be cumulative (if we were working with financial data, we might want cumulative).
+
+`my_dist.plot(50,cumulative=False)`
+
+We've made a nice image here, but it might be easier to comprehend as a list, because this is a special probability distribution object, we can call the "most common" on this, too. Let's find the 20 most common words:
+
+`my_dist.most_common(20)`
+
+What about if we are interested in a list of specific words - maybe to identify texts that have biblical references. Let's make a (short) list of words that might suggest a biblical reference and see if they appear in Moby Dick. Set this list equal to a variable.
+
+`b_words = ['god', 'apostle', 'angel']`
+
+Then we will loop through the words in our cleaned corpus, and see if any of them are in our list of biblical words, and save just those words that appear in both in another list. 
+
+``` my_list = []
+for word in b_words:
+    if word in text1_clean:
+        my_list.append(word)
+    else:
+        pass```
+
+And then we will print the results.
+
+`print(my_list)`
+
+You can obviously do this with much larger lists and compare entire novels if you wish (though it would take a while with this syntax). You can use this to get similarity measures and answer related questions. 
+
+
+### Make Your Own Corpus
+
+Now that we have seen and implemented a series of text analysis techniques, let's go to the Internet to find a new text. You could just as easily use a txt file that is on your computer (say you have a txt copy of the [Hunger Games LINK TO GIT](LINK), for example. Or historic newspapers, or Supreme Court proceedings, etc. Here, we will use [Project Gutenberg](http://www.gutenberg.org). Project Gutenberg is an archive of public domain written works, available in a wide variety of formats, including .txt. You can download these to your computer or access them via the url. We'll use the url method. We found Don Quixote in the archive, and will work with that.
+
+The Python package, urllib comes installed with Python, but is inactive by default, so we still need to import it to utilize the functions. Since we are only going to use the urlopen function, we will just import that one.
+
+In the next cell, type:
+
+`from urllib.request import urlopen`
+
+The urlopen function allows your program to interact with files on the internet by opening them. It does not read them, however - they are just available to be read in the next line. This is the default behavior any time a file is opened and read by Python. One reason is that you might want to read a file in different ways. For example, if you have a **really** big file (think big data), you might want to read line-by-line rather than the whole thing at once. 
+
+Now let's specify which url we are going to use. Though you might be able to find Don Quixote in the Project Gutenberg files, please type this in so that we are all using the same format (there are multiple .txt files on the site, one with utf-8 encoding, another with ascii encoding). We want the utf-8 encoded one. The difference between these is beyond the scope of this tutorial, check out this [introduction to character encoding](https://www.w3.org/International/questions/qa-what-is-encoding) from The World Wide Web Consortium (W3C). 
+
+Set the url we want to a variable:
+
+`my_url = "http://www.gutenberg.org/cache/epub/996/pg996.txt"`
+
+We still need to open the file and read the file. You will have to do this with files stored locally as well. (in which case, you would type the path to the file (i.e., "data/texts/mytext.txt") in place of `my_url`)
+
+
+`file = urlopen(my_url)`
+
+`raw = file.read()`
+
+This file is in bytes, so we need to decode it into a string. In the next cell, type:
+
+`don=raw.decode()`
+
+Now let's check on what kind of object we have in the "don" variable. Type:
+
+`type(don)`
+
+This should be a string. Great! We have just read in our first file and now we are going to transform that string into a text that we can perform NLTK functions on. Since we already imported nltk at the beginning of our program, we don't need to import it again, we can just use its functions by specifying 'nltk' before the function. The first step is to tokenize the words, transforming the giant string into a list of words. A simple way to do this would be to break on spaces, and that would probably be fine, but we are going to use the NLTK tokenizer to ensure that edge cases are captured (i.e., "don't" is made into 2 words: do and n't). In the next cell, type:
+
+`don_tokens = nltk.word_tokenize(don)`
+
+You can check out the type of "don_tokens" to make sure it worked, but you don't have to (it should be a list). Let's see how many words there are in our novel:
+
+`len(don_tokens)`
+
+Since this is a list, we can look at any slice of it that we want. Let's inspect the first ten words: 
+
+`don_tokens[:10]`
+
+That looks like metadata - not what we want to analyze. We will strip this off before proceeding. If you were doing this to many texts, you would want to use Regular Expressions. Regular Expressions are an extremely powerful way to match text in a document. However, we are just using this text, so we could either guess, or cut and paste the text into a text reader and identify the position of the first content (i.e., how many words in is the first word). That is the route we are going to take. We found that the first word of the story begins at word 120, so let's make a slice of the text from word position 120 to the end. 
+
+`dq_text = don_tokens[120:]`
+
+Finally, if we want to use the NLTK specific functions:
+* concordance
+* similar
+* dispersion plot 
+* etc., *see the [NLTK book](https://www.nltk.org/book/)*
+
+We would have to make a specific NLTK Text object. 
+
+`dq_nltk_text = nltk.Text(dq_text)`
+
+If we wanted to use the built-in Python functions, we can just stick with our list of words in `dq_text`. Since we've already covered all of those functions, we are going to move ahead with cleaning our text. 
+
+Just as we did earlier, we are going to remove the stopwords based on a list provided by NLTK, remove punctuation, and capitalization, and lemmatize the words. The code for each step follows:
+
+1. Remove stop words
+
+```mystops = stopwords.words('english')
+dq_clean = [w for w in dq_text if w not in mystops]
+```
+
+2. Lowercase and remove punctuation
+
+`dq_clean = [t.lower() for t in dq_clean if t.isalpha()]`
+
+3. Lemmatize
 
  
+```from nltk.stem import WordNetLemmatizer
+wordnet_lemmatizer = WordNetLemmatizer()
+dq_clean = [wordnet_lemmatizer.lemmatize(t) for t in dq_clean]
+```
+From here, you could perform all of the operations that we did after cleaning our text in the previous session. Instead, we will perform another type of analysis: Part-of-Speech (POS) tagging. 
 
 
-* Making your own corpus
-	* Data Cleaning
-		* Types vs. Tokens
-	* Input/Output
-* Part-of-Speech Tagging
+### Part-of-Speech Tagging
+
+**We are going to use the pre-cleaned, dq_text object for this section** 
+
+POS tagging is going through a text and identifying which part of speech each word belongs to (i.e., Noun, Verb, or Adjective). Every word belongs to a part of speech, but some words can be confusing.
+
+* Floyd is happy 
+* Happy is a state of being
+* Happy has five letters
+* I'm going to Happy Cat tonight
+
+Therefore, part of speech is as much related to the word itself as its relationship to the words around it. A good part of speech tagger takes this into account, but there are some impossible cases as well:
+
+* Wanda was entertaining last night
+
+Part of Speech tagging can be done very simply: with a very small Tag Set, or in a very complex way: with a much more elaborate tag set. We are going to implement a compromise, and use a neither small nor large tag set, the [Penn Tree Bank POS Tag Set](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html).
+
+This is the tag set that is pre-loaded into NLTK. When we call the tagger, we expect it to return an object with the word and the tag associated. Because POS tagging is dependent upon the stop words, we have to use a text that includes the stop words. Therefore, we will go back to using the **dq_text** object for this section. Let's try it out. Type:
+
+`dq_tagged = nltk.pos_tag(dq_text)`
+
+Let's inspect what we have:
+
+`print(dq_tagged[:10])`
+
+This is a list of ordered tuples. Each element in the list is a pairing of (word, POS-tag). This is great, but it is very detailed, I would like to know how many Nouns, Verbs, and Adjectives I have. First, I'll make an epty dictionary to hold my results. Then I will go through this list of tuples and count the number of times each tag appears. Every time I encounter a new tag, I'll add it to a dictionary and then increment by one every time I encounter that tag again. Let's see what that looks like in code:
+
+```tag_dict = {}
+#for every word/tag combo in my list, 
+for (word, tag) in dq_text:
+    if tag in tag_dict: 
+        tag_dict[tag]+=1
+    else:
+        tag_dict[tag] = 1```
+
+Now let's see what we got:
+
+`tag_dict`
+
+This would be better with some order to it, so let's organize our dictionary to find out what the most common tag is. We need the OrderedDict function. Just like with the url.request library, the 'collections' package comes built-in with Python, but is inactive by default. Therefore, to use the functions from it, we need to activate it by importing that set of functions. We will only need the OrderedDict, so that's all we will import. Then we will pass the OrderedDict function our dictionary with a set of parameters, to tell it exactly how we want it to be ordered, and in which direction, etc. We know what to do for this function because we [READ THE DOCS](https://docs.python.org/3/library/collections.html#collections.OrderedDict)
+
+```from collections import OrderedDict
+tag_dict = OrderedDict(sorted(tag_dict.items(), key=lambda t: t[1], reverse=True))```
+
+Now check out what we have. It looks like NN is the most common tag, we can look up what that is back at the [Penn Tree Bank](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html). Looks like that is a Noun, singular or mass. Great! This information will likely help us with genre classification (as you will do in the Machine Learning tutorial), or identifying the author of a text, or a variety of other functions. 
+
+### Conclusion
+
+At this point, you should have a familiarity with what is possible with text analysis, and some of the most important functions (i.e., cleaning and part-of-speech tagging). Yet, this tutorial has only scratched the surface of what is possible with text analysis and natural language processing. It is a rapidly growing field, if you are interested, be sure to work through the NLTK Book as well as peruse the resources in the Zotero Library. 
+
+
+______________________________________________________________________________________________________________
+
+Tutorial written by [Michelle McSweeney](www.michelleamcsweeney.com), for *Digital Humanities Research Institute*, an intensive 10 day workshop on Digital Humanities methods and applications at the Graduate Center at CUNY June 11-20. More information about the institue is available [here](http://dhinstitutes.org/).
