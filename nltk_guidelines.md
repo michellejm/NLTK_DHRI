@@ -1,22 +1,18 @@
 ## Introduction to Text Analysis with Python and the Natural Language ToolKit (NLTK)
-### Digital Humanities Research Institute
+```### Digital Humanities Research Institute
 ### The Graduate Center at CUNY | June 11, 2018
 ### Michelle A. McSweeney, PhD and Rachel Rakov
+```
 
 ### Contents:
 
 * Overview
 * Setup and Installation
-	* Python 
-	* NLTK
-	* Data
 * Text As Data
 * NLTK Methods with the NLTK Corpus
 * Built-in Python Methods
 * Making your own corpus
-	* Data Cleaning
-		* Types vs. Tokens
-	* Input/Output
+
 * Part-of-Speech Tagging
 
 *Before we get started, please clone or download the [GitHub Repository](https://github.com/michellejm/NLTK_DHRI/) for this tutorial*
