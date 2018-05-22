@@ -1,8 +1,8 @@
 ## Introduction to Text Analysis with Python and the Natural Language ToolKit (NLTK)
-```### Digital Humanities Research Institute
-### The Graduate Center at CUNY | June 11, 2018
-### Michelle A. McSweeney, PhD and Rachel Rakov
-```
+### Digital Humanities Research Institute
+#### The Graduate Center at CUNY | June 11, 2018
+#### Michelle A. McSweeney, PhD and Rachel Rakov
+
 
 ### Contents:
 
