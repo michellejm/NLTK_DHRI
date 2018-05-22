@@ -199,13 +199,15 @@ for t in text1:
 		t.lower()
 		text1_tokens.append(t)
 	else:
-		pass```
+		pass
+
+```
 
 ![code](https://github.com/michellejm/NLTK_DHRI/blob/master/Images/code.png)
 	
 Another way to type this (more efficiently) is:
 
-`text1_tokens= [t.lower() for t in text1 if t.isalpha()] 
+`text1_tokens= [t.lower() for t in text1 if t.isalpha()]` 
 
 Great! Now text1_tokens is a list of all of the tokens in our corpus, with the punctuation removed, and all the words in lowercase
 
