@@ -349,7 +349,8 @@ for word in b_words:
     if word in text1_clean:
         my_list.append(word)
     else:
-        pass```
+        pass
+```
 
 And then we will print the results.
 
@@ -474,7 +475,8 @@ for (word, tag) in dq_text:
     if tag in tag_dict: 
         tag_dict[tag]+=1
     else:
-        tag_dict[tag] = 1```
+        tag_dict[tag] = 1
+```
 
 Now let's see what we got:
 
@@ -483,7 +485,8 @@ Now let's see what we got:
 This would be better with some order to it, so let's organize our dictionary to find out what the most common tag is. We need the OrderedDict function. Just like with the url.request library, the 'collections' package comes built-in with Python, but is inactive by default. Therefore, to use the functions from it, we need to activate it by importing that set of functions. We will only need the OrderedDict, so that's all we will import. Then we will pass the OrderedDict function our dictionary with a set of parameters, to tell it exactly how we want it to be ordered, and in which direction, etc. We know what to do for this function because we [READ THE DOCS](https://docs.python.org/3/library/collections.html#collections.OrderedDict)
 
 ```from collections import OrderedDict
-tag_dict = OrderedDict(sorted(tag_dict.items(), key=lambda t: t[1], reverse=True))```
+tag_dict = OrderedDict(sorted(tag_dict.items(), key=lambda t: t[1], reverse=True))
+```
 
 Now check out what we have. It looks like NN is the most common tag, we can look up what that is back at the [Penn Tree Bank](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html). Looks like that is a Noun, singular or mass. Great! This information will likely help us with genre classification (as you will do in the Machine Learning tutorial), or identifying the author of a text, or a variety of other functions. 
 
