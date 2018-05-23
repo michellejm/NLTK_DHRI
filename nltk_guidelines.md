@@ -298,7 +298,7 @@ Because of the way that it is written "under the hood", an instance of the lemma
 
 `wordnet_lemmatizer = WordNetLemmatizer()`
 
-Now we will lemmatize the words in the list. This time, we will only use the faster version because it takes a long time. 
+Now we will lemmatize the words in the list. This time, we will only use the faster version of the code because it takes a long time. 
 
  `text1_clean = [wordnet_lemmatizer.lemmatize(t) for t in t1_tokens]`
 
@@ -314,16 +314,19 @@ Now let's have a look at the words Melville uses in Moby Dick. We'd like to look
 
 `sorted(set(text1_tokens))`
 
-A list of all the words in Moby Dick should appear. The list begins with 'a', which we might have expected to be removed in the stemming process, and some words we wouldn't have expected, such as "abbreviate" and "abbreviation". We can try this with a stemmer instead (I recommend Porter, but there are many), but we end up with a lot of unrecoverable words. We will stick with the output of the Lemmatizer for now. The code for Porter is below:
+A list of all the words in Moby Dick should appear. The list begins with 'a', which we might have expected to be removed in the stemming process, and some words we wouldn't have expected, such as "abbreviate" and "abbreviation". As we mentioned before, lemmatizing looks up the dictionary form of the word, and these would be different entries. A better example is with 'meaning' and 'meanness.' A lemmatizer would retain these two as separate words. A stemmer would not. We will stick with the output of the Lemmatizer, but just for illustration, we can try it out with a instead (Porter is the most common).  The code to implement this and view the output is below:
 
 ```
 from nltk.stem import PorterStemmer
 porter_stemmer = PorterStemmer()
 t1_porter = [porter_stemmer.stem(t) for t in t1_tokens]
-sorted(set(t1_porter))
-```
+print(len(set(t1_porter)))
+print(sorted(set(t1_porter)))
 
- Now let's visualize the word frequency. First we will create a frequency distribution. This is a special type of NLTK object that is kind of like a dictionary, where the words are the keys, and the counts are the values. (The NLTK-ness of our text1 is still retained with text1_clean)
+```
+A very different list of words is produced. This list is shorter than the list produced by the lemmatizer, but is also more accurate because it avoids collapsing synonyms. You might also notice that some of the words are transformed. Stemmers each have their own rules, the Porter stemmer takes a word like "berry" and "berries" and makes them both "berri" whereas a lemmatizer would return it as "berry". Stemmers are faster than lemmatizers, so when speed matters more than accuracy, go with a stemmer. When accuracy matters more, go with a lemmatizer. In an academic research setting, the choice is clear. We will proceed with our lemmatized corpus.
+
+Now let's visualize the word frequency. First we will create a frequency distribution. This is a special type of NLTK object that is kind of like a dictionary, where the words are the keys, and the counts are the values. (The NLTK-ness of our text1 is still retained with text1_clean)
  
  `my_dist=FreqDist(text1_clean)`
 
